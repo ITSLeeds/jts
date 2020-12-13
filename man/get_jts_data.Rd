@@ -33,9 +33,10 @@ And the tables beginning JTS10 contain add other variables.
 Data is provided every year from 2014 to 2019 in many cases
 }
 \examples{
-jts_tables
+head(jts_tables)
 head(jts_tables$table_title)
 metadata = get_jts_data(table = "jts0101", year = "meta")
+head(metadata)
 # uncomment on released version
 jts0401_2017 = get_jts_data(table = "jts0401", year = 2017)
 head(jts0401_2017[1:7])
@@ -46,5 +47,5 @@ head(jts0401_2017_raw[1:7])
 jts0501_2017 = get_jts_data(table = "jts0501", year = 2017)
 head(jts0501_2017[1:7])
 jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
-jts0501_meta
+head(jts0501_meta)
 }

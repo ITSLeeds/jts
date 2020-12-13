@@ -19,9 +19,10 @@
 #' @param ods Download and read-in raw ODS files? `FALSE` by default
 #' @export
 #' @examples
-#' jts_tables
+#' head(jts_tables)
 #' head(jts_tables$table_title)
 #' metadata = get_jts_data(table = "jts0101", year = "meta")
+#' head(metadata)
 #' # uncomment on released version
 #' jts0401_2017 = get_jts_data(table = "jts0401", year = 2017)
 #' head(jts0401_2017[1:7])
@@ -32,7 +33,7 @@
 #' jts0501_2017 = get_jts_data(table = "jts0501", year = 2017)
 #' head(jts0501_2017[1:7])
 #' jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
-#' jts0501_meta
+#' head(jts0501_meta)
 get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE) {
   if(ods) {
     d = read_jts_local(table, sheet = as.character(year), clean = clean)
