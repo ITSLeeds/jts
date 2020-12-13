@@ -16,3 +16,4 @@ vignettes/*.png*
 *.zip
 *.html
 *libs*
+docs
