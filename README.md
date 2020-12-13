@@ -4,6 +4,8 @@
 # jts
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/ITSLeeds/jts/workflows/R-CMD-check/badge.svg)](https://github.com/ITSLeeds/jts/actions)
 <!-- badges: end -->
 
 The goal of jts is to provide easy access to the DfT’s Journey Time
