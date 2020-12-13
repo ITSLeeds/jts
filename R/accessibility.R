@@ -13,27 +13,47 @@
 #'
 #' Data is provided every year from 2014 to 2019 in many cases
 #' @param table The title of the table, e.g. "jts0501"
-#' @param year The year, e.g. 2017
-#' @param u_csv The csv url (not usually needed)
+#' @param year The year, e.g. 2017. If "meta" is supplied, get metadata.
+#' @param u_csv The base url of the files
 #' @param clean Should the dataset be cleaned with `jts_clean`?
-#' @aliases jts_tables
+#' @param ods Download and read-in raw ODS files? `FALSE` by default
 #' @export
 #' @examples
 #' jts_tables
-#' jts_tables$table_title
-#' get_jts_data(table = "jts0101", year = 2017)
+#' head(jts_tables$table_title)
+#' metadata = get_jts_data(table = "jts0101", year = "meta")
 #' # uncomment on released version
 #' jts0401_2017 = get_jts_data(table = "jts0401", year = 2017)
 #' head(jts0401_2017[1:7])
 #' jts0401_2014 = get_jts_data(table = "jts0401", year = 2014)
 #' head(jts0401_2014[1:7])
 #' jts0401_2017_raw = get_jts_data(table = "jts0401", year = 2017, clean = FALSE)
+#' head(jts0401_2017_raw[1:7])
 #' jts0501_2017 = get_jts_data(table = "jts0501", year = 2017)
-#' # get_jts_data(table = "jts0402", year = 2014)
-get_jts_data = function(table, year = 2017, u_csv = NULL, clean = TRUE) {
-  d = read_jts_local(table, sheet = as.character(year), clean = clean)
-  message("Reading in file ", u_csv)
-  res = janitor::remove_empty(d)
+#' head(jts0501_2017[1:7])
+#' jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
+#' jts0501_meta
+get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE) {
+  if(ods) {
+    d = read_jts_local(table, sheet = as.character(year), clean = clean)
+    message("Reading in file ", u_csv)
+  } else {
+    s = jts::jts_tables$year == year & jts::jts_tables$table_code == table
+    csv_filename = jts::jts_tables$csv_file_name[s]
+    full_csv = file.path(u_csv, csv_filename)
+    suppressMessages({
+      suppressWarnings({
+        d = readr::read_csv(full_csv)
+      })
+    })
+
+    if(clean) {
+      d = clean_jts(d)
+    }
+    res = janitor::remove_empty(d, which = c("rows", "cols"))
+    res
+  }
+
   names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
   names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
   res
@@ -119,7 +139,7 @@ get_accessibility_data_overview = function(download_dir = jts_download_directory
   list.files(download_dir)
   readODS::read_ods(file.path(download_dir, table_name))[[1]]
 }
-utils::globalVariables("jts_tables")
+# utils::globalVariables("jts_tables")
 
 # u = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/853147/jts0401.ods"
 # u = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/853147/jts0501.ods"
@@ -128,24 +148,36 @@ utils::globalVariables("jts_tables")
 read_ods_url = function(u, download_dir = jts_download_directory(), sheet = "2017") {
   f = basename(u)
   ff = file.path(download_dir, f)
-  download.file(url = u, destfile = ff)
+ utils::download.file(url = u, destfile = ff)
   s = readODS::list_ods_sheets(ff)
   message("The following sheets are available: ", paste0(s, collapse = " "))
   d = readODS::read_ods(ff, sheet = sheet)
   d
 }
-remotes::install_github("chainsawriot/readODS")
-u = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/853155/jts0501.ods"
-download_dir = tempdir()
-f = basename(u)
-ff = file.path(download_dir, f)
-download.file(url = u, destfile = ff)
-d = readODS::read_ods(ff, sheet = "2017")
-message("The following sheets are available: ", paste0(s, collapse = " "))
-s = readODS::list_ods_sheets(ff)
+# remotes::install_github("chainsawriot/readODS")
+# u = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/853155/jts0501.ods"
+# download_dir = tempdir()
+# f = basename(u)
+# ff = file.path(download_dir, f)
+#utils::download.file(url = u, destfile = ff)
+# d = readODS::read_ods(ff, sheet = "2017")
+# message("The following sheets are available: ", paste0(s, collapse = " "))
+# s = readODS::list_ods_sheets(ff)
 
 jts_download_directory = function() {
   Sys.getenv("JTS_DIRECTORY", tempdir())
+}
+
+jts_url = function() {
+  csv_file_path = file.path(jts_download_directory(), "jts_csv_files")
+  if(dir.exists(csv_file_path)) {
+    files_in_csv_path = list.files(csv_file_path)
+    message(length(files_in_csv_path), " files found in path")
+    return(csv_file_path)
+  } else {
+    csv_file_path = "https://github.com/itsleeds/jts/releases/download/1/"
+  }
+  csv_file_path
 }
 
 
@@ -168,7 +200,7 @@ clean_jts = function(d) {
   }
   names(d) = d[column_name_row, ]
   d_filtered = d[(column_name_row + 1):(nrow(d)), ]
-  d_with_type = type.convert(d_filtered)
+  d_with_type = utils::type.convert(d_filtered)
   # head(d_with_type)
   # janitor::remove_empty(d_with_type)
   d_with_type

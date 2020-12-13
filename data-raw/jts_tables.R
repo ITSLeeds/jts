@@ -84,17 +84,16 @@ d = readr::read_csv("jts_csv_files/jts0501-2017.csv", skip = 6)
 
 piggyback::pb_upload("jts_csv_files.zip", repo = "cyipt/acton")
 
-setwd("jts_csv_files/")
-f = list.files()
+jts_csv_path = file.path(jts:::jts_download_directory(), "jts_csv_files")
+f = list.files(jts_csv_path)
 piggyback::pb_upload(f, repo = "cyipt/acton")
 
 
 # join onto access tables dataset -----------------------------------------
 
 accessibility_table
-accessibility_table$table_url[1]
-folders_csv
-table_codes_csv = basename(folders_csv)
+accessibility_table$table_url[19]
+table_codes_csv = basename(f)
 accessibility_table$table_code = table_codes_url
 accessibility_table_csvs = tibble::tibble(
   table_code = str_sub(f, start = 1, end = 7),
@@ -106,21 +105,16 @@ nrow(accessibility_table)
 accessibility_table$table_url
 jts_tables = left_join(accessibility_table_csvs, accessibility_table)
 
-csv_file_names = paste0(jts_tables$table_code, ".csv")
+csv_url = paste0("https://github.com/itsleeds/jts/releases/download/1/", jts_tables$csv_file_name)
 
-readr::read_csv("https://github.com/cyipt/acton/releases/download/0.0.1/jts0101-2014.csv")
-
-csv_url = paste0("https://github.com/cyipt/acton/releases/download/0.0.1/", jts_tables$csv_file_name)
-
-readr::read_csv(csv_url[2])
+# readr::read_csv(csv_url[2])
 
 jts_tables$csv_url = csv_url
-usethis::use_data(jts_tables)
 
 
-jts_tables$csv_file_name = NULL
-jts_tables$csv_url = NULL
-jts_tables$table_url = NULL
+jts_tables$csv_file_name
+jts_tables$csv_url
+jts_tables$table_url
 jts_tables$table_code
 
 
@@ -132,7 +126,10 @@ remove_jts_content = function(
   p3 = " and local authority, England+.*",
   p4 = ", Lower Super Output Area \\(LSOA\\), England+.*",
   p5 = " by cycle and car, local authority, England",
-  p6 = "to |for "
+  p6 = "to |for ",
+  p7 = "Average minimum travel time reach the nearest key services",
+  p8 = "Number of sites available within selected journey times by key services",
+  p9 = "Service users with access key services within selected journey times"
 ) {
   x = gsub(pattern = p1, replacement = "", x = x, fixed = TRUE)
   x = gsub(pattern = p2, replacement = "", x = x)
@@ -140,6 +137,9 @@ remove_jts_content = function(
   x = gsub(pattern = p4, replacement = "", x = x)
   x = gsub(pattern = p5, replacement = "", x = x)
   x = gsub(pattern = p6, replacement = "", x = x)
+  x = gsub(pattern = p7, replacement = "Time", x = x)
+  x = gsub(pattern = p8, replacement = "N sites", x = x)
+  x = gsub(pattern = p9, replacement = "Service users", x = x)
   x
 }
 
@@ -151,4 +151,7 @@ table(jts_tables_updated$service)
 stringr::str_extract(string = jts_tables$csv_file_name, pattern = "-\\d{4}") # works
 jts_tables_updated$year = as.integer(stringr::str_extract(string = jts_tables$csv_file_name, pattern = "(?<=-)\\d{4}"))
 jts_tables = jts_tables_updated
+# jts_tables$year[grepl(pattern = "meta", x = jts_tables$csv_file_name, ignore.case = TRUE)] = "meta"
+jts_tables$year[is.na(jts_tables$year)] = "meta"
+table(jts_tables$table_code, jts_tables$year) # all good, no duplicates
 usethis::use_data(jts_tables, overwrite = TRUE)

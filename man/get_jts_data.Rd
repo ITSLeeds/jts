@@ -2,21 +2,20 @@
 % Please edit documentation in R/accessibility.R
 \name{get_jts_data}
 \alias{get_jts_data}
-\alias{jts_tables}
 \title{Get accessibility data for particular year and table number}
 \usage{
-get_jts_data(table, year = NULL, u_csv = NULL, skip = 0, clean = TRUE)
+get_jts_data(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE)
 }
 \arguments{
 \item{table}{The title of the table, e.g. "jts0501"}
 
-\item{year}{The year, e.g. 2017}
+\item{year}{The year, e.g. 2017. If "meta" is supplied, get metadata.}
 
-\item{u_csv}{The csv url (not usually needed)}
-
-\item{skip}{How many lines to skip before the data starts (6 by default)}
+\item{u_csv}{The base url of the files}
 
 \item{clean}{Should the dataset be cleaned with \code{jts_clean}?}
+
+\item{ods}{Download and read-in raw ODS files? \code{FALSE} by default}
 }
 \description{
 The DfT's Journey Time Statistics are outlined here on the
@@ -35,10 +34,17 @@ Data is provided every year from 2014 to 2019 in many cases
 }
 \examples{
 jts_tables
-jts_tables$table_title
-get_jts_data(table = "jts0101", year = 2017, skip = 7)
+head(jts_tables$table_title)
+metadata = get_jts_data(table = "jts0101", year = "meta")
 # uncomment on released version
-# get_jts_data(table = "jts0401", year = 2017)
-# get_jts_data(table = "jts0402", year = 2017)
-# get_jts_data(table = "jts0402", year = 2014)
+jts0401_2017 = get_jts_data(table = "jts0401", year = 2017)
+head(jts0401_2017[1:7])
+jts0401_2014 = get_jts_data(table = "jts0401", year = 2014)
+head(jts0401_2014[1:7])
+jts0401_2017_raw = get_jts_data(table = "jts0401", year = 2017, clean = FALSE)
+head(jts0401_2017_raw[1:7])
+jts0501_2017 = get_jts_data(table = "jts0501", year = 2017)
+head(jts0501_2017[1:7])
+jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
+jts0501_meta
 }

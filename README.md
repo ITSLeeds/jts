@@ -1,29 +1,17 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
 
 # jts
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of jts is to provide easy access to the DfT's Journey Time Statistics.
+The goal of jts is to provide easy access to the DfT’s Journey Time
+Statistics.
 
 ## Installation
 
 <!-- You can install the released version of jts from [CRAN](https://CRAN.R-project.org) with: -->
-
 <!-- ``` r -->
 <!-- install.packages("jts") -->
 <!-- ``` -->
