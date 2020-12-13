@@ -86,7 +86,8 @@ piggyback::pb_upload("jts_csv_files.zip", repo = "cyipt/acton")
 
 jts_csv_path = file.path(jts:::jts_download_directory(), "jts_csv_files")
 f = list.files(jts_csv_path)
-piggyback::pb_upload(f, repo = "cyipt/acton")
+setwd(jts_csv_path)
+piggyback::pb_upload(f, repo = "itsleeds/jts")
 
 
 # join onto access tables dataset -----------------------------------------
