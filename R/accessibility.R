@@ -41,6 +41,7 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
     d = read_jts_local(table, sheet = as.character(year), clean = clean)
     message("Reading in file ", u_csv)
   } else {
+    browser()
     s = jts::jts_tables$year == year & jts::jts_tables$table_code == table
     csv_filename = jts::jts_tables$csv_file_name[s]
     full_csv = file.path(u_csv, csv_filename)
