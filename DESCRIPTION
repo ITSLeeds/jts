@@ -1,11 +1,11 @@
 Package: jts
-Title: What the Package Does (One Line, Title Case)
+Title: Get Journey Time Statistics
 Version: 0.0.0.9000
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com",      role = c("aut","cre"),
       comment = c(ORCID = "0000-0001-5679-6536"))
     )
-Description: What the package does (one paragraph).
+Description: The goal of jts is to provide easy access to the UK Department for Transport's Journey Time Statistics.
 License: AGPL (>= 3)
 Encoding: UTF-8
 LazyData: true
