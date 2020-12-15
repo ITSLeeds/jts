@@ -34,6 +34,8 @@
 #' # head(jts0401_2017_raw[1:7])
 #' # jts0501_2017 = get_jts_data(table = "jts0501", year = 2017)
 #' # head(jts0501_2017[1:7])
+#' # jts0501_2017 = get_jts_data(table = "jts0501", year = 2017, output_format = "sf")
+#' # head(jts0501_2017)
 #' jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
 #' head(jts0501_meta)
 get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE, output_format = "data_frame") {
@@ -41,7 +43,7 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
     d = read_jts_local(table, sheet = as.character(year), clean = clean)
     message("Reading in file ", u_csv)
   } else {
-    browser()
+    # browser()
     s = jts::jts_tables$year == year & jts::jts_tables$table_code == table
     csv_filename = jts::jts_tables$csv_file_name[s]
     full_csv = file.path(u_csv, csv_filename)
@@ -58,11 +60,17 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
     res
   }
 
-  names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
-  names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
+  # names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
+  # names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
 
   if(output_format == "sf") {
     #do something
+    type = "lsoa" # todo make this change for LA data
+    geo_data = get_geo_data(type = type)
+    if("LSOA11CD" %in% names(geo_data)) {
+      geo_data = dplyr::rename(geo_data, LSOA_code = LSOA11CD)
+    }
+    res = dplyr::inner_join(geo_data, res)
   }
   res
 }
@@ -212,4 +220,42 @@ clean_jts = function(d) {
   # head(d_with_type)
   # janitor::remove_empty(d_with_type)
   d_with_type
+}
+
+#' get_geo_data()
+get_geo_data = function(type = "lsoa") {
+  if(type == "lsoa") {
+    u = "https://opendata.arcgis.com/datasets/c892586698ad4d268f9288f1df20ab77_0.zip"
+  } else if(type == "la") {
+    # url to la data
+  }
+  geo_data = duraz(u)
+}
+#' u = "https://opendata.arcgis.com/datasets/c892586698ad4d268f9288f1df20ab77_0.zip"
+#' lsoas = duraz(u_oas_cents)
+#' plot(lsoas$geometry)
+duraz = function(u, delete_zip = FALSE, rename_zip = TRUE, data_dir = jts_download_directory()) {
+  if(!grepl(pattern = "http", u)) {
+    if(!grepl(pattern = ".zip", x = u)) {
+      warning("This does not have a .zip suffix by trying to unzip anyway")
+    }
+    unzip(u)
+  } else {
+    zip_name = basename(u)
+    if(file.exists(zip_name)) {
+      warning(".zip already exists. Not downloading new data.\nYou may want to delete or rename it before proceeding")
+    } else {
+      zip_filepath = file.path(data_dir, zip_name)
+      download.file(u, destfile = zip_filepath)
+    }
+    unzip_directory = file.path(data_dir, gsub(pattern = ".zip", "", zip_name))
+    dir.create(unzip_directory)
+    unzip(zip_filepath, exdir = unzip_directory)
+  }
+  f = list.files(path =  unzip_directory, pattern = ".shp", full.names = TRUE)
+  if(length(f) > 1) {
+    stop("Warning: more than one shapefile downloaded - load them manually")
+  }
+  res = sf::st_read(f)
+  return(res)
 }
