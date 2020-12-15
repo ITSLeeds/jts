@@ -180,7 +180,30 @@ And the tables beginning JTS10 contain add other variables.</p>
 #&gt; [4] "Average minimum travel time to reach the nearest key services by mode of travel, rural and urban areas: England"
 #&gt; [5] "Average minimum travel time to reach the nearest key services by mode of travel, rural and urban areas: England"
 #&gt; [6] "Average minimum travel time to reach the nearest key services by public transport or walking, region: England"  </div><div class='input'><span class='va'>metadata</span> <span class='op'>=</span> <span class='fu'>get_jts_data</span><span class='op'>(</span>table <span class='op'>=</span> <span class='st'>"jts0101"</span>, year <span class='op'>=</span> <span class='st'>"meta"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple column headings found: : </span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>metadata</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Called from: get_jts_data(table = "jts0101", year = "meta")
+#&gt; debug: s = jts::jts_tables$year == year &amp; jts::jts_tables$table_code == 
+#&gt;     table
+#&gt; debug: csv_filename = jts::jts_tables$csv_file_name[s]
+#&gt; debug: full_csv = file.path(u_csv, csv_filename)
+#&gt; debug: suppressMessages({
+#&gt;     suppressWarnings({
+#&gt;         d = readr::read_csv(full_csv)
+#&gt;     })
+#&gt; })
+#&gt; debug: suppressWarnings({
+#&gt;     d = readr::read_csv(full_csv)
+#&gt; })
+#&gt; debug: d = readr::read_csv(full_csv)
+#&gt; debug: if (clean) {
+#&gt;     d = clean_jts(d)
+#&gt; }
+#&gt; debug: d = clean_jts(d)</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple column headings found: : </span></div><div class='output co'>#&gt; debug: res = janitor::remove_empty(d, which = c("rows", "cols"))
+#&gt; debug: res
+#&gt; debug: names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
+#&gt; debug: names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
+#&gt; debug: if (output_format == "sf") {
+#&gt; }
+#&gt; debug: res</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>metadata</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 13</span><span>
 #&gt;   Year  Mode  `Places with Jo… `Places with Jo… `Places with Jo…
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>            </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -194,7 +217,31 @@ And the tables beginning JTS10 contain add other variables.</p>
 #&gt; </span><span style='color: #555555;'>#   `Further Education` </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GP </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, Hospital </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, `Food store` </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   `Town Centres` </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, NA </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span></div><div class='input'><span class='co'># uncomment on released version</span>
 <span class='va'>jts0401_2017</span> <span class='op'>=</span> <span class='fu'>get_jts_data</span><span class='op'>(</span>table <span class='op'>=</span> <span class='st'>"jts0401"</span>, year <span class='op'>=</span> <span class='fl'>2017</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>jts0401_2017</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Called from: get_jts_data(table = "jts0401", year = 2017)
+#&gt; debug: s = jts::jts_tables$year == year &amp; jts::jts_tables$table_code == 
+#&gt;     table
+#&gt; debug: csv_filename = jts::jts_tables$csv_file_name[s]
+#&gt; debug: full_csv = file.path(u_csv, csv_filename)
+#&gt; debug: suppressMessages({
+#&gt;     suppressWarnings({
+#&gt;         d = readr::read_csv(full_csv)
+#&gt;     })
+#&gt; })
+#&gt; debug: suppressWarnings({
+#&gt;     d = readr::read_csv(full_csv)
+#&gt; })
+#&gt; debug: d = readr::read_csv(full_csv)
+#&gt; debug: if (clean) {
+#&gt;     d = clean_jts(d)
+#&gt; }
+#&gt; debug: d = clean_jts(d)
+#&gt; debug: res = janitor::remove_empty(d, which = c("rows", "cols"))
+#&gt; debug: res
+#&gt; debug: names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
+#&gt; debug: names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
+#&gt; debug: if (output_format == "sf") {
+#&gt; }
+#&gt; debug: res</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>jts0401_2017</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;   Region  LA_Code LA_Name Empl_pop Jobs100EmpPTt Jobs100EmpPT15n Jobs100EmpPT30n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -204,7 +251,31 @@ And the tables beginning JTS10 contain add other variables.</p>
 #&gt; </span><span style='color: #555555;'>4</span><span> North … E06000… Middle…   </span><span style='text-decoration: underline;'>101</span><span>165          6.26            3.97            9.94
 #&gt; </span><span style='color: #555555;'>5</span><span> North … E06000… Northu…   </span><span style='text-decoration: underline;'>234</span><span>010         15.2             1.49            6.65
 #&gt; </span><span style='color: #555555;'>6</span><span> North … E06000… Redcar…    </span><span style='text-decoration: underline;'>97</span><span>971          7.94            2.40            9.62</div><div class='input'><span class='va'>jts0401_2014</span> <span class='op'>=</span> <span class='fu'>get_jts_data</span><span class='op'>(</span>table <span class='op'>=</span> <span class='st'>"jts0401"</span>, year <span class='op'>=</span> <span class='fl'>2014</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>jts0401_2014</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Called from: get_jts_data(table = "jts0401", year = 2014)
+#&gt; debug: s = jts::jts_tables$year == year &amp; jts::jts_tables$table_code == 
+#&gt;     table
+#&gt; debug: csv_filename = jts::jts_tables$csv_file_name[s]
+#&gt; debug: full_csv = file.path(u_csv, csv_filename)
+#&gt; debug: suppressMessages({
+#&gt;     suppressWarnings({
+#&gt;         d = readr::read_csv(full_csv)
+#&gt;     })
+#&gt; })
+#&gt; debug: suppressWarnings({
+#&gt;     d = readr::read_csv(full_csv)
+#&gt; })
+#&gt; debug: d = readr::read_csv(full_csv)
+#&gt; debug: if (clean) {
+#&gt;     d = clean_jts(d)
+#&gt; }
+#&gt; debug: d = clean_jts(d)
+#&gt; debug: res = janitor::remove_empty(d, which = c("rows", "cols"))
+#&gt; debug: res
+#&gt; debug: names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
+#&gt; debug: names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
+#&gt; debug: if (output_format == "sf") {
+#&gt; }
+#&gt; debug: res</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>jts0401_2014</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;   Region  LA_Code LA_Name Empl_pop Jobs100EmpPTt Jobs100EmpPT15n Jobs100EmpPT30n
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
@@ -218,7 +289,30 @@ And the tables beginning JTS10 contain add other variables.</p>
 <span class='co'># jts0501_2017 = get_jts_data(table = "jts0501", year = 2017)</span>
 <span class='co'># head(jts0501_2017[1:7])</span>
 <span class='va'>jts0501_meta</span> <span class='op'>=</span> <span class='fu'>get_jts_data</span><span class='op'>(</span>table <span class='op'>=</span> <span class='st'>"jts0501"</span>, year <span class='op'>=</span> <span class='st'>"meta"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple column headings found: 1618: </span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>jts0501_meta</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Called from: get_jts_data(table = "jts0501", year = "meta")
+#&gt; debug: s = jts::jts_tables$year == year &amp; jts::jts_tables$table_code == 
+#&gt;     table
+#&gt; debug: csv_filename = jts::jts_tables$csv_file_name[s]
+#&gt; debug: full_csv = file.path(u_csv, csv_filename)
+#&gt; debug: suppressMessages({
+#&gt;     suppressWarnings({
+#&gt;         d = readr::read_csv(full_csv)
+#&gt;     })
+#&gt; })
+#&gt; debug: suppressWarnings({
+#&gt;     d = readr::read_csv(full_csv)
+#&gt; })
+#&gt; debug: d = readr::read_csv(full_csv)
+#&gt; debug: if (clean) {
+#&gt;     d = clean_jts(d)
+#&gt; }
+#&gt; debug: d = clean_jts(d)</div><div class='output co'>#&gt; <span class='warning'>Warning: Multiple column headings found: 1618: </span></div><div class='output co'>#&gt; debug: res = janitor::remove_empty(d, which = c("rows", "cols"))
+#&gt; debug: res
+#&gt; debug: names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
+#&gt; debug: names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
+#&gt; debug: if (output_format == "sf") {
+#&gt; }
+#&gt; debug: res</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>jts0501_meta</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 4</span><span>
 #&gt;   `Service users source: Census and u… NA       NA                      NA      
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>                                </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>                   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>   
