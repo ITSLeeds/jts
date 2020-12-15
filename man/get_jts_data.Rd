@@ -4,7 +4,14 @@
 \alias{get_jts_data}
 \title{Get accessibility data for particular year and table number}
 \usage{
-get_jts_data(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE)
+get_jts_data(
+  table,
+  year = 2017,
+  u_csv = jts_url(),
+  clean = TRUE,
+  ods = FALSE,
+  output_format = "data_frame"
+)
 }
 \arguments{
 \item{table}{The title of the table, e.g. "jts0501"}
@@ -16,6 +23,9 @@ get_jts_data(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE)
 \item{clean}{Should the dataset be cleaned with \code{jts_clean}?}
 
 \item{ods}{Download and read-in raw ODS files? \code{FALSE} by default}
+
+\item{output_format}{Which file format should be returned?
+\code{data_frame} by default; \code{sf} optional.}
 }
 \description{
 The DfT's Journey Time Statistics are outlined here on the

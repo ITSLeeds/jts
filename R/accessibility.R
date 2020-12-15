@@ -17,6 +17,8 @@
 #' @param u_csv The base url of the files
 #' @param clean Should the dataset be cleaned with `jts_clean`?
 #' @param ods Download and read-in raw ODS files? `FALSE` by default
+#' @param output_format Which file format should be returned?
+#'   `data_frame` by default; `sf` optional.
 #' @export
 #' @examples
 #' head(jts_tables)
@@ -34,7 +36,7 @@
 #' # head(jts0501_2017[1:7])
 #' jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
 #' head(jts0501_meta)
-get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE) {
+get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE, output_format = "data_frame") {
   if(ods) {
     d = read_jts_local(table, sheet = as.character(year), clean = clean)
     message("Reading in file ", u_csv)
@@ -57,6 +59,10 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
 
   names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
   names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
+
+  if(output_format == "sf") {
+    #do something
+  }
   res
 }
 
