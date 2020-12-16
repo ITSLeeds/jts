@@ -242,3 +242,5 @@ get_geo_boundary_data = function(type = "lsoa") {
 #' u = "https://opendata.arcgis.com/datasets/3b374840ce1b4160b85b8146b610cd0c_0.geojson"
 #' la = sf::read_sf(u)
 #' plot(la$geometry)
+#' # see https://github.com/ITSLeeds/jts/issues/2
+utils::globalVariables(c("LAD20CD", "LAD20NM", "LPA19CD", "LPA19NM", "LSOA11CD", "LSOA11NM", "type"))
