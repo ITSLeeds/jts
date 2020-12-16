@@ -16,7 +16,8 @@
 #' @param year The year, e.g. 2017. If "meta" is supplied, get metadata.
 #' @param u_csv The base url of the files
 #' @param clean Should the dataset be cleaned with `jts_clean`?
-#' @param ods Download and read-in raw ODS files? `FALSE` by default
+#' @param ods Download and read-in raw ODS files? `FALSE` by default, which reads-in csv files instead.
+#'    The .csv files were created to overcome performance limitations of `readODS`, which cannot read-in large .ods files.
 #' @param output_format Which file format should be returned?
 #'   `data_frame` by default; `sf` optional.
 #' @export
@@ -64,11 +65,15 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
   # names(res) = gsub(pattern = "500", replacement = "Jobs500", names(res))
 
   if(output_format == "sf") {
-    #do something
-    type = "lsoa" # todo make this change for LA data
-    geo_data = get_geo_data(type = type)
+    geo_data = get_geo_boundary_data(type = type)
+    if("LPA19CD" %in% names(geo_data)) {
+      geo_data = dplyr::rename(geo_data, LPA_code = LPA19CD, LPA_name = LPA19NM)
+    }
     if("LSOA11CD" %in% names(geo_data)) {
-      geo_data = dplyr::rename(geo_data, LSOA_code = LSOA11CD)
+      geo_data = dplyr::rename(geo_data, LSOA_code = LSOA11CD, LSOA_name = LSOA11NM)
+    }
+    if("LAD20CD" %in% names(geo_data)) {
+      geo_data = dplyr::rename(geo_data, LA_code = LAD20CD, LA_name = LAD20NM)
     }
     res = dplyr::inner_join(geo_data, res)
   }
@@ -222,40 +227,18 @@ clean_jts = function(d) {
   d_with_type
 }
 
-#' get_geo_data()
-get_geo_data = function(type = "lsoa") {
+#' get_geo_boundary_data()
+#' @param type Options are `lsoa`, `la` (local authority district/unitary authority) and `lpa` (local planning authority); `lsoa` by default.
+get_geo_boundary_data = function(type = "lsoa") {
   if(type == "lsoa") {
-    u = "https://opendata.arcgis.com/datasets/c892586698ad4d268f9288f1df20ab77_0.zip"
+    u = "https://opendata.arcgis.com/datasets/42f3aa4ca58742e8a55064a213fb27c9_0.geojson" # December 2011 EW generalised 20m (BGC) V2
+  } else if(type == "lpa") {
+    u = "https://opendata.arcgis.com/datasets/cc5941be78a8458393a03c69518b2bf9_0.geojson" # April 2020 generalised 20m (BGC)
   } else if(type == "la") {
-    # url to la data
+    u = "https://opendata.arcgis.com/datasets/3b374840ce1b4160b85b8146b610cd0c_0.geojson" # May 2020 generalised 20m (BGC)
   }
-  geo_data = duraz(u)
+  geo_data = sf::read_sf(u)
 }
-#' u = "https://opendata.arcgis.com/datasets/c892586698ad4d268f9288f1df20ab77_0.zip"
-#' lsoas = duraz(u_oas_cents)
-#' plot(lsoas$geometry)
-duraz = function(u, delete_zip = FALSE, rename_zip = TRUE, data_dir = jts_download_directory()) {
-  if(!grepl(pattern = "http", u)) {
-    if(!grepl(pattern = ".zip", x = u)) {
-      warning("This does not have a .zip suffix by trying to unzip anyway")
-    }
-    unzip(u)
-  } else {
-    zip_name = basename(u)
-    if(file.exists(zip_name)) {
-      warning(".zip already exists. Not downloading new data.\nYou may want to delete or rename it before proceeding")
-    } else {
-      zip_filepath = file.path(data_dir, zip_name)
-      download.file(u, destfile = zip_filepath)
-    }
-    unzip_directory = file.path(data_dir, gsub(pattern = ".zip", "", zip_name))
-    dir.create(unzip_directory)
-    unzip(zip_filepath, exdir = unzip_directory)
-  }
-  f = list.files(path =  unzip_directory, pattern = ".shp", full.names = TRUE)
-  if(length(f) > 1) {
-    stop("Warning: more than one shapefile downloaded - load them manually")
-  }
-  res = sf::st_read(f)
-  return(res)
-}
+#' u = "https://opendata.arcgis.com/datasets/3b374840ce1b4160b85b8146b610cd0c_0.geojson"
+#' la = sf::read_sf(u)
+#' plot(la$geometry)

@@ -22,7 +22,8 @@ get_jts_data(
 
 \item{clean}{Should the dataset be cleaned with \code{jts_clean}?}
 
-\item{ods}{Download and read-in raw ODS files? \code{FALSE} by default}
+\item{ods}{Download and read-in raw ODS files? \code{FALSE} by default, which reads-in csv files instead.
+The .csv files were created to overcome performance limitations of \code{readODS}, which cannot read-in large .ods files.}
 
 \item{output_format}{Which file format should be returned?
 \code{data_frame} by default; \code{sf} optional.}
@@ -56,6 +57,8 @@ head(jts0401_2014[1:7])
 # head(jts0401_2017_raw[1:7])
 # jts0501_2017 = get_jts_data(table = "jts0501", year = 2017)
 # head(jts0501_2017[1:7])
+# jts0501_2017 = get_jts_data(table = "jts0501", year = 2017, output_format = "sf")
+# head(jts0501_2017)
 jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
 head(jts0501_meta)
 }
