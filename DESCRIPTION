@@ -18,4 +18,6 @@ Depends:
 Imports: 
     readr,
     janitor,
-    readODS
+    readODS,
+    dplyr,
+    sf
