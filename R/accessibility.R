@@ -16,7 +16,8 @@
 #' @param year The year, e.g. 2017. If "meta" is supplied, get metadata.
 #' @param u_csv The base url of the files
 #' @param clean Should the dataset be cleaned with `jts_clean`?
-#' @param ods Download and read-in raw ODS files? `FALSE` by default, which provides csv files instead.
+#' @param ods Download and read-in raw ODS files? `FALSE` by default, which reads-in csv files instead.
+#'    The .csv files were created to overcome performance limitations of `readODS`, which cannot read-in large .ods files.
 #' @param output_format Which file format should be returned?
 #'   `data_frame` by default; `sf` optional.
 #' @export

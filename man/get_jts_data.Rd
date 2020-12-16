@@ -22,7 +22,8 @@ get_jts_data(
 
 \item{clean}{Should the dataset be cleaned with \code{jts_clean}?}
 
-\item{ods}{Download and read-in raw ODS files? \code{FALSE} by default, which provides csv files instead.}
+\item{ods}{Download and read-in raw ODS files? \code{FALSE} by default, which reads-in csv files instead.
+The .csv files were created to overcome performance limitations of \code{readODS}, which cannot read-in large .ods files.}
 
 \item{output_format}{Which file format should be returned?
 \code{data_frame} by default; \code{sf} optional.}
