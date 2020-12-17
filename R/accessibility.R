@@ -20,6 +20,7 @@
 #'    The .csv files were created to overcome performance limitations of `readODS`, which cannot read-in large .ods files.
 #' @param output_format Which file format should be returned?
 #'   `data_frame` by default; `sf` optional.
+#' @param type Options are `lsoa`, `la` (local authority district/unitary authority) and `lpa` (local planning authority); `lsoa` by default.
 #' @export
 #' @examples
 #' head(jts_tables)
@@ -39,7 +40,7 @@
 #' # head(jts0501_2017)
 #' jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
 #' head(jts0501_meta)
-get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE, output_format = "data_frame") {
+get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE, output_format = "data_frame", type = "lsoa") {
   if(ods) {
     d = read_jts_local(table, sheet = as.character(year), clean = clean)
     message("Reading in file ", u_csv)

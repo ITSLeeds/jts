@@ -10,7 +10,8 @@ get_jts_data(
   u_csv = jts_url(),
   clean = TRUE,
   ods = FALSE,
-  output_format = "data_frame"
+  output_format = "data_frame",
+  type = "lsoa"
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ The .csv files were created to overcome performance limitations of \code{readODS
 
 \item{output_format}{Which file format should be returned?
 \code{data_frame} by default; \code{sf} optional.}
+
+\item{type}{Options are \code{lsoa}, \code{la} (local authority district/unitary authority) and \code{lpa} (local planning authority); \code{lsoa} by default.}
 }
 \description{
 The DfT's Journey Time Statistics are outlined here on the
