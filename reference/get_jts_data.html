@@ -126,7 +126,7 @@ gov.uk website." />
   clean <span class='op'>=</span> <span class='cn'>TRUE</span>,
   ods <span class='op'>=</span> <span class='cn'>FALSE</span>,
   output_format <span class='op'>=</span> <span class='st'>"data_frame"</span>,
-  type <span class='op'>=</span> <span class='st'>"lsoa"</span>
+  type <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -167,11 +167,11 @@ The .csv files were created to overcome performance limitations of <code>readODS
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The function uses a data frame of existing tables, created by the script 'accessibility_tables.R' in the data-raw folder.</p>
-<p>The tables starting JTS01 to JTS03 provide national overview data.
-The tables JTS0401 to JTS0409 provide data at the Local Authority level.
-The tables JTS0501 to JTS0509 provide the same data at the LSOA level.
-The tables beginning JTS09 provide data on accessibility to transport hubs.
-And the tables beginning JTS10 contain add other variables.</p>
+<p>The tables starting JTS01 to JTS03 provide national overview data.</p>
+<p>The tables JTS0401 to JTS0409 provide data at the Local Authority level.</p>
+<p>The tables JTS0501 to JTS0509 provide the same data at the LSOA level.</p>
+<p>The tables beginning JTS09 provide data on accessibility to transport hubs.</p>
+<p>And the tables beginning JTS10 contain add other variables.</p>
 <p>Data is provided every year from 2014 to 2019 in many cases</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -216,6 +216,16 @@ And the tables beginning JTS10 contain add other variables.</p>
 #&gt; </span><span style='color: #555555;'>5</span><span> North E… E060000… Northumber…   </span><span style='text-decoration: underline;'>234</span><span>010       15.2           1.49          6.65
 #&gt; </span><span style='color: #555555;'>6</span><span> North E… E060000… Redcar and…    </span><span style='text-decoration: underline;'>97</span><span>971        7.94          2.40          9.62</div><div class='input'><span class='va'>jts0401_2014</span> <span class='op'>=</span> <span class='fu'>get_jts_data</span><span class='op'>(</span>table <span class='op'>=</span> <span class='st'>"jts0401"</span>, year <span class='op'>=</span> <span class='fl'>2014</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>jts0401_2014</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
+#&gt;   Region   LA_Code  LA_Name     Empl_pop `100EmpPTt` `100EmpPT15n` `100EmpPT30n`
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> North E… E060000… County Dur…   </span><span style='text-decoration: underline;'>384</span><span>110       10.6           1.86          8.52
+#&gt; </span><span style='color: #555555;'>2</span><span> North E… E060000… Darlington     </span><span style='text-decoration: underline;'>76</span><span>142        8.84          2.88          9.25
+#&gt; </span><span style='color: #555555;'>3</span><span> North E… E060000… Hartlepool     </span><span style='text-decoration: underline;'>67</span><span>013        8.04          3.26          9.60
+#&gt; </span><span style='color: #555555;'>4</span><span> North E… E060000… Middlesbro…   </span><span style='text-decoration: underline;'>100</span><span>614        7.50          3.43          9.97
+#&gt; </span><span style='color: #555555;'>5</span><span> North E… E060000… Northumber…   </span><span style='text-decoration: underline;'>232</span><span>459       16.2           1.32          6.54
+#&gt; </span><span style='color: #555555;'>6</span><span> North E… E060000… Redcar and…    </span><span style='text-decoration: underline;'>98</span><span>459        9.06          2.01          9.32</div><div class='input'><span class='va'>jts0401_2017_sf</span> <span class='op'>=</span> <span class='fu'>get_jts_data</span><span class='op'>(</span>table <span class='op'>=</span> <span class='st'>"jts0401"</span>, year <span class='op'>=</span> <span class='fl'>2017</span>, output_format <span class='op'>=</span> <span class='st'>"sf"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Joining, by = "LA_Code"</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>jts0401_2014</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 7</span><span>
 #&gt;   Region   LA_Code  LA_Name     Empl_pop `100EmpPTt` `100EmpPT15n` `100EmpPT30n`
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;fct&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
