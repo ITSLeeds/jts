@@ -11,7 +11,7 @@ get_jts_data(
   clean = TRUE,
   ods = FALSE,
   output_format = "data_frame",
-  type = "lsoa"
+  type = NULL
 )
 }
 \arguments{
@@ -39,9 +39,13 @@ The DfT's Journey Time Statistics are outlined here on the
 The function uses a data frame of existing tables, created by the script 'accessibility_tables.R' in the data-raw folder.
 
 The tables starting JTS01 to JTS03 provide national overview data.
+
 The tables JTS0401 to JTS0409 provide data at the Local Authority level.
+
 The tables JTS0501 to JTS0509 provide the same data at the LSOA level.
+
 The tables beginning JTS09 provide data on accessibility to transport hubs.
+
 And the tables beginning JTS10 contain add other variables.
 
 Data is provided every year from 2014 to 2019 in many cases
@@ -55,6 +59,8 @@ head(metadata)
 jts0401_2017 = get_jts_data(table = "jts0401", year = 2017)
 head(jts0401_2017[1:7])
 jts0401_2014 = get_jts_data(table = "jts0401", year = 2014)
+head(jts0401_2014[1:7])
+jts0401_2017_sf = get_jts_data(table = "jts0401", year = 2017, output_format = "sf")
 head(jts0401_2014[1:7])
 # jts0401_2017_raw = get_jts_data(table = "jts0401", year = 2017, clean = FALSE)
 # head(jts0401_2017_raw[1:7])

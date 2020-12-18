@@ -6,9 +6,13 @@
 #' The function uses a data frame of existing tables, created by the script 'accessibility_tables.R' in the data-raw folder.
 #'
 #' The tables starting JTS01 to JTS03 provide national overview data.
+#'
 #' The tables JTS0401 to JTS0409 provide data at the Local Authority level.
+#'
 #' The tables JTS0501 to JTS0509 provide the same data at the LSOA level.
+#'
 #' The tables beginning JTS09 provide data on accessibility to transport hubs.
+#'
 #' And the tables beginning JTS10 contain add other variables.
 #'
 #' Data is provided every year from 2014 to 2019 in many cases
@@ -32,6 +36,8 @@
 #' head(jts0401_2017[1:7])
 #' jts0401_2014 = get_jts_data(table = "jts0401", year = 2014)
 #' head(jts0401_2014[1:7])
+#' jts0401_2017_sf = get_jts_data(table = "jts0401", year = 2017, output_format = "sf")
+#' head(jts0401_2014[1:7])
 #' # jts0401_2017_raw = get_jts_data(table = "jts0401", year = 2017, clean = FALSE)
 #' # head(jts0401_2017_raw[1:7])
 #' # jts0501_2017 = get_jts_data(table = "jts0501", year = 2017)
@@ -40,7 +46,7 @@
 #' # head(jts0501_2017)
 #' jts0501_meta = get_jts_data(table = "jts0501", year = "meta")
 #' head(jts0501_meta)
-get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE, output_format = "data_frame", type = "lsoa") {
+get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods = FALSE, output_format = "data_frame", type = NULL) {
   if(ods) {
     d = read_jts_local(table, sheet = as.character(year), clean = clean)
     message("Reading in file ", u_csv)
@@ -48,6 +54,15 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
     # browser()
     s = jts::jts_tables$year == year & jts::jts_tables$table_code == table
     csv_filename = jts::jts_tables$csv_file_name[s]
+    if(grepl(pattern = "jts040", csv_filename)) {
+      type = "la"
+    }
+    if(grepl(pattern = "jts050", csv_filename)) {
+      type = "lsoa"
+    }
+    if(grepl(pattern = "to be confirmed!", csv_filename)) {
+      type = "lpa"
+    }
     full_csv = file.path(u_csv, csv_filename)
     suppressMessages({
       suppressWarnings({
@@ -59,7 +74,6 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
       d = clean_jts(d)
     }
     res = janitor::remove_empty(d, which = c("rows", "cols"))
-    res
   }
 
   # names(res) = gsub(pattern = "100", replacement = "Jobs100", names(res))
@@ -74,7 +88,7 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
       geo_data = dplyr::rename(geo_data, LSOA_code = LSOA11CD, LSOA_name = LSOA11NM)
     }
     if("LAD20CD" %in% names(geo_data)) {
-      geo_data = dplyr::rename(geo_data, LA_code = LAD20CD, LA_name = LAD20NM)
+      geo_data = dplyr::rename(geo_data, LA_Code = LAD20CD, LA_name = LAD20NM)
     }
     res = dplyr::inner_join(geo_data, res)
   }
