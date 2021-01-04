@@ -255,7 +255,7 @@ get_geo_boundary_data = function(type = "lsoa") {
   }
   geo_data = sf::read_sf(u)
 }
-#' u = "https://opendata.arcgis.com/datasets/3b374840ce1b41e60b85b8146b610cd0c_0.geojson"
+#' u = "https://opendata.arcgis.com/datasets/0c09b7cde8b44c4ab6e2a1e47a91e400_0.geojson"
 #' la = sf::read_sf(u)
 #' plot(la$geometry)
 #' # see https://github.com/ITSLeeds/jts/issues/2
