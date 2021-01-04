@@ -87,8 +87,8 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
     if("LSOA11CD" %in% names(geo_data)) {
       geo_data = dplyr::rename(geo_data, LSOA_code = LSOA11CD, LSOA_name = LSOA11NM)
     }
-    if("LAD20CD" %in% names(geo_data)) {
-      geo_data = dplyr::rename(geo_data, LA_Code = LAD20CD, LA_name = LAD20NM)
+    if("lad11cd" %in% names(geo_data)) {
+      geo_data = dplyr::rename(geo_data, LA_Code = lad11cd, LA_name = lad11nm)
     }
     res = dplyr::inner_join(geo_data, res)
   }
@@ -250,12 +250,13 @@ get_geo_boundary_data = function(type = "lsoa") {
   } else if(type == "lpa") {
     u = "https://opendata.arcgis.com/datasets/cc5941be78a8458393a03c69518b2bf9_0.geojson" # April 2020 generalised 20m (BGC)
   } else if(type == "la") {
-    u = "https://opendata.arcgis.com/datasets/3b374840ce1b4160b85b8146b610cd0c_0.geojson" # May 2020 generalised 20m (BGC)
+    # u = "https://opendata.arcgis.com/datasets/3b374840ce1b4160b85b8146b610cd0c_0.geojson" # May 2020 generalised 20m (BGC)
+    u = "https://opendata.arcgis.com/datasets/0c09b7cde8b44c4ab6e2a1e47a91e400_0.geojson" # December 2011 EW generalised 20m (BGC)
   }
   geo_data = sf::read_sf(u)
 }
-#' u = "https://opendata.arcgis.com/datasets/3b374840ce1b4160b85b8146b610cd0c_0.geojson"
+#' u = "https://opendata.arcgis.com/datasets/3b374840ce1b41e60b85b8146b610cd0c_0.geojson"
 #' la = sf::read_sf(u)
 #' plot(la$geometry)
 #' # see https://github.com/ITSLeeds/jts/issues/2
-utils::globalVariables(c("LAD20CD", "LAD20NM", "LPA19CD", "LPA19NM", "LSOA11CD", "LSOA11NM", "type"))
+utils::globalVariables(c("lad11cd", "lad11nm", "LPA19CD", "LPA19NM", "LSOA11CD", "LSOA11NM", "type"))
