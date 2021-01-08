@@ -54,14 +54,16 @@ get_jts_data = function(table, year = 2017, u_csv = jts_url(), clean = TRUE, ods
     # browser()
     s = jts::jts_tables$year == year & jts::jts_tables$table_code == table
     csv_filename = jts::jts_tables$csv_file_name[s]
-    if(grepl(pattern = "jts040", csv_filename)) {
-      type = "la"
-    }
-    if(grepl(pattern = "jts050", csv_filename)) {
-      type = "lsoa"
-    }
-    if(grepl(pattern = "to be confirmed!", csv_filename)) {
-      type = "lpa"
+    if(is.null(type)){
+      if(grepl(pattern = "jts040", csv_filename)) {
+        type = "la"
+      }
+      if(grepl(pattern = "jts050", csv_filename)) {
+        type = "lsoa"
+      }
+      if(grepl(pattern = "local authority", csv_filename)) {
+        type = "la"
+      }
     }
     full_csv = file.path(u_csv, csv_filename)
     suppressMessages({
